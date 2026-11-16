@@ -1,0 +1,21 @@
+name: Monitor feeds Perú diario
+
+on:
+  schedule:
+    - cron: "20 13 * * *"   # 13:20 UTC = 08:20 Perú (Perú no cambia de horario)
+  workflow_dispatch:        # permite correrlo a mano desde la pestaña Actions
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Ejecutar monitor Perú
+        env:
+          GOOGLE_SHEET_ID: ${{ secrets.GOOGLE_SHEET_ID_PE }}   # Sheet de Perú, NO la de Chile
+          GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}                # mismo service account de Chile
+        run: python feed_monitor_pe.py
