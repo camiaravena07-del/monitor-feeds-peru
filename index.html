@@ -11,27 +11,27 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
   :root{
-    /* superficies rosadas — se mantiene la esencia */
-    --bg:#FBF2F6; --card:#FFFFFF; --soft:#FCEEF3; --soft2:#FEF8FB;
-    --line:#F0D9E3; --line2:#F8E7EF;
+    /* superficies: blanco cálido con tinte rojo Perú, en pastel */
+    --bg:#FCF4F1; --card:#FFFFFF; --soft:#FCEBE7; --soft2:#FEF9F7;
+    --line:#F1DAD4; --line2:#F7E6E1;
     /* tinta: MÁS contraste que antes para escaneo rápido */
-    --ink:#2A1E25; --ink2:#22161C; --body:#5A4650; --muted:#7A6570; --faint:#9A8591;
+    --ink:#2B1D1B; --ink2:#231614; --body:#5C4743; --muted:#7C6560; --faint:#9C8580;
     /* marca */
-    --rose:#B4566F; --rose-d:#8F3E58; --rose-dd:#732E45; --plum:#8A6699; --gold:#B98A3F;
-    --chip-bg:#F6DDE6; --chip-tx:#8F3E58;
+    --rose:#C2463F; --rose-d:#9A342E; --rose-dd:#7A2723; --plum:#E58A7F; --gold:#C08A3A;
+    --chip-bg:#F8DEDA; --chip-tx:#9A342E;
     /* semántica: verde OK, frambuesa ALERTA (vive en la familia rosa) */
     --ok:#3F7A63; --ok-bg:#E3F0EA; --ok-line:#CFE6DB;
-    --alert:#C2334F; --alert-bg:#FCE4E9; --alert-line:#F6C9D4;
+    --alert:#B02A2A; --alert-bg:#FCE3E0; --alert-line:#F4C6C0;
     --warn:#A9772A; --warn-bg:#FaefdD;
     /* escala de radios y sombra unificadas */
     --r-s:8px; --r-m:12px; --r-l:16px; --r-pill:999px;
-    --sh:0 1px 2px rgba(120,50,75,.05), 0 8px 24px rgba(120,50,75,.06);
-    --sh-pop:0 12px 34px rgba(120,50,75,.18);
+    --sh:0 1px 2px rgba(130,55,45,.05), 0 8px 24px rgba(130,55,45,.06);
+    --sh-pop:0 12px 34px rgba(130,55,45,.18);
   }
   *{box-sizing:border-box}
   html{-webkit-text-size-adjust:100%}
   body{margin:0;background:var(--bg);color:var(--body);font-family:'DM Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased;font-size:15px;line-height:1.45}
-  ::selection{background:#F7DCE3}
+  ::selection{background:#F9DDD8}
   h1,h2,h3{margin:0}
   .serif{font-family:'Instrument Serif',serif;font-weight:400}
   .mono{font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums}
@@ -41,7 +41,7 @@
 
   /* ---------- controles base ---------- */
   select{font-family:inherit;font-size:13.5px;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:var(--r-s);padding:8px 12px;cursor:pointer;transition:border-color .12s,box-shadow .12s}
-  select:hover{border-color:#E4BFCF}
+  select:hover{border-color:#E8C2BA}
   select:focus{outline:none;border-color:var(--rose);box-shadow:0 0 0 3px var(--soft)}
 
   .search{position:relative;display:inline-flex;align-items:center}
@@ -54,7 +54,7 @@
   /* botón primario (descargas) + secundario */
   .btn{font:600 13px/1 'DM Sans';border-radius:var(--r-s);padding:9px 14px;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:transform .06s, background .14s, box-shadow .14s;border:1px solid transparent}
   .btn:active{transform:translateY(1px)}
-  .btn-primary{color:#fff;background:var(--rose);border-color:var(--rose);box-shadow:0 2px 8px rgba(180,86,111,.28)}
+  .btn-primary{color:#fff;background:var(--rose);border-color:var(--rose);box-shadow:0 2px 8px rgba(194,70,63,.28)}
   .btn-primary:hover{background:var(--rose-d)}
   .btn-secondary{color:var(--rose-d);background:var(--card);border-color:var(--line)}
   .btn-secondary:hover{border-color:var(--rose);background:var(--soft2)}
@@ -64,15 +64,15 @@
   .active-filters{display:flex;flex-wrap:wrap;gap:7px;align-items:center;min-height:0}
   .fchip{display:inline-flex;align-items:center;gap:6px;font:500 12px/1 'DM Sans';color:var(--rose-d);background:var(--chip-bg);border-radius:var(--r-pill);padding:6px 8px 6px 11px}
   .fchip b{font-weight:600}
-  .fchip .x{width:16px;height:16px;border:0;background:rgba(143,62,88,.14);border-radius:50%;color:var(--rose-d);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:11px;padding:0}
-  .fchip .x:hover{background:rgba(143,62,88,.28)}
+  .fchip .x{width:16px;height:16px;border:0;background:rgba(154,52,46,.14);border-radius:50%;color:var(--rose-d);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:11px;padding:0}
+  .fchip .x:hover{background:rgba(154,52,46,.28)}
   .clear-all{font:600 12px/1 'DM Sans';color:var(--muted);background:none;border:0;cursor:pointer;padding:6px 4px;text-decoration:underline;text-underline-offset:2px}
   .clear-all:hover{color:var(--rose-d)}
 
   /* multiselect tipo Excel */
   .msel{position:relative;display:inline-block}
   .msel-btn{font-family:inherit;font-size:13.5px;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:var(--r-s);padding:8px 12px;cursor:pointer;min-width:150px;text-align:left;display:flex;justify-content:space-between;gap:10px;align-items:center;transition:border-color .12s}
-  .msel-btn:hover{border-color:#E4BFCF}
+  .msel-btn:hover{border-color:#E8C2BA}
   .msel-btn .cnt{font:600 10px/1 'IBM Plex Mono';background:var(--chip-bg);color:var(--chip-tx);border-radius:var(--r-pill);padding:3px 6px}
   .msel-pop{position:absolute;top:calc(100% + 6px);left:0;z-index:40;background:var(--card);border:1px solid var(--line);border-radius:var(--r-m);box-shadow:var(--sh-pop);padding:9px;width:240px;display:none}
   .msel-pop.open{display:block}
@@ -90,7 +90,7 @@
   .layout{display:flex;align-items:flex-start;min-height:100vh}
   aside{position:sticky;top:0;flex:0 0 246px;height:100vh;padding:26px 18px;background:var(--card);border-right:1px solid var(--line);display:flex;flex-direction:column;gap:18px;overflow-y:auto}
   .brand-row{display:flex;align-items:center;gap:11px}
-  .brand-mark{flex:0 0 auto;width:34px;height:34px;border-radius:10px;background:linear-gradient(150deg,var(--rose),var(--plum));display:flex;align-items:center;justify-content:center}
+  .brand-mark{flex:0 0 auto;width:34px;height:34px;border-radius:10px;background:linear-gradient(90deg,#E07A72 0 33%,#FFF6F4 33% 67%,#E07A72 67%);border:1px solid var(--line);display:flex;align-items:center;justify-content:center}
   .brand-name{font:400 22px/1.05 'Instrument Serif',serif;color:var(--ink2)}
   .brand-sub{font:600 10px/1.2 'DM Sans';color:var(--faint);letter-spacing:.08em;margin-top:2px}
 
@@ -126,14 +126,14 @@
   .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(184px,1fr));gap:14px;margin-top:22px}
   .kpi{background:var(--card);border:1px solid var(--line);border-radius:var(--r-l);padding:17px 19px;box-shadow:var(--sh);position:relative}
   .kpi.click{cursor:pointer;transition:transform .1s, box-shadow .14s, border-color .14s}
-  .kpi.click:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(120,50,75,.12);border-color:#E9C7D6}
+  .kpi.click:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(130,55,45,.12);border-color:#ECCAC2}
   .kpi .k-lab{font:600 12px/1.3 'DM Sans';color:var(--muted);margin-bottom:11px;display:flex;align-items:center;gap:5px}
   .kpi .k-val{font:400 36px/1 'Instrument Serif',serif;color:var(--ink2);font-variant-numeric:tabular-nums}
   .kpi .k-foot{font:400 12px/1.35 'DM Sans';color:var(--muted);margin-top:8px}
-  .kpi.accent{background:linear-gradient(160deg,#FFFDFE,#FCF0F5);border-color:var(--line2)}
+  .kpi.accent{background:linear-gradient(160deg,#FFFDFC,#FCEFEB);border-color:var(--line2)}
   /* estado de severidad */
   .kpi.sev-ok{background:linear-gradient(160deg,#FFFFFF,#F1F8F4);border-color:var(--ok-line)}
-  .kpi.sev-alert{background:linear-gradient(160deg,#FFFDFD,#FDEFF2);border-color:var(--alert-line)}
+  .kpi.sev-alert{background:linear-gradient(160deg,#FFFDFC,#FDEEEB);border-color:var(--alert-line)}
   .kpi.sev-alert .k-val{color:var(--alert)}
   .kpi.sev-ok .k-val{color:var(--ok)}
   .sev-tag{position:absolute;top:15px;right:16px;font:600 10px/1 'DM Sans';padding:5px 9px;border-radius:var(--r-pill);letter-spacing:.03em}
@@ -181,7 +181,7 @@
   tbody tr:hover{background:var(--soft)}
   /* congelar primeras columnas */
   th.freeze,td.freeze{position:sticky;left:0;background:var(--card);z-index:1}
-  tbody tr:nth-child(even) td.freeze{background:#FDF6F9}
+  tbody tr:nth-child(even) td.freeze{background:#FDF7F5}
   tbody tr:hover td.freeze{background:var(--soft)}
   th.freeze{z-index:3}
   th.freeze2,td.freeze2{position:sticky;z-index:1}
@@ -189,7 +189,7 @@
   .badge{display:inline-block;font:600 11px/1 'DM Sans';padding:5px 10px;border-radius:var(--r-pill)}
   .b-si{background:var(--ok-bg);color:var(--ok)}
   .b-no{background:var(--alert-bg);color:var(--alert)}
-  .b-na{background:#F1EBEE;color:var(--faint)}
+  .b-na{background:#F2ECEA;color:var(--faint)}
   .b-promo{background:#F3E9F7;color:#7E4E9C}
   .b-best{background:var(--rose);color:#fff}
   .rowcount{font:600 12.5px/1 'DM Sans';color:var(--muted);margin-top:12px;display:flex;gap:8px;align-items:center}
@@ -209,7 +209,7 @@
   .tip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--ink2)}
 
   /* ---------- skeleton ---------- */
-  .sk{background:linear-gradient(90deg,#F6E7EE 25%,#FBF0F5 50%,#F6E7EE 75%);background-size:200% 100%;animation:shimmer 1.3s infinite;border-radius:var(--r-s)}
+  .sk{background:linear-gradient(90deg,#F7E8E4 25%,#FBF2EF 50%,#F7E8E4 75%);background-size:200% 100%;animation:shimmer 1.3s infinite;border-radius:var(--r-s)}
   @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
   .sk-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(184px,1fr));gap:14px;margin-top:22px}
   .sk-card{height:118px;border-radius:var(--r-l)}
@@ -230,7 +230,7 @@
     .topbar .tb-name{font:400 20px/1 'Instrument Serif',serif;color:var(--ink2)}
     aside{position:fixed;left:0;top:0;z-index:100;transform:translateX(-100%);transition:transform .24s ease;width:270px;flex-basis:270px}
     aside.open{transform:none;box-shadow:var(--sh-pop)}
-    .scrim.show{display:block;position:fixed;inset:0;background:rgba(60,20,35,.32);z-index:90}
+    .scrim.show{display:block;position:fixed;inset:0;background:rgba(60,22,18,.32);z-index:90}
     main{padding:20px 16px 70px}
     .h h2{font-size:26px}
     .controls .spacer{display:none}
@@ -271,9 +271,7 @@
 <div class="layout">
   <aside id="aside">
     <div class="brand-row">
-      <div class="brand-mark">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l3-4 3 3 4-6"/></svg>
-      </div>
+      <div class="brand-mark" aria-hidden="true"></div>
       <div>
         <div class="brand-name">Monitor de feeds Perú</div>
         <div class="brand-sub">GRUPO AXO · PERÚ</div>
@@ -310,7 +308,7 @@
 <script>
 const SHEET_ID = "14dR98BCd69FB2WBdZz8A65rs9MlJt2hXNuMtKhkxV4M";   // ID de la Sheet de Perú (NO la de Chile)
 const TABS = ["historico","meta"];
-const PALETTE = ["#C0637F","#4E7A67","#D2748E","#9C8AC9","#C99A5B","#6E9AC4","#B9607E","#7EA981","#A2405F","#8C6BAF","#CB8A6A","#5C86A8","#D98BA6","#66937B","#B07BB8","#C77A5C","#7B9FC9","#A5566F"];
+const PALETTE = ["#C9524B","#4E8C88","#D88A3E","#7C6BB0","#5E8F5A","#5B7FA8","#C9A23E","#E07B72","#A8434F","#7FB0A8","#B5683A","#9B86C4","#D9A07A","#6F9C6B","#8E3B36","#86A5C9","#C27B9E","#A3864F"];   // rojo Perú + pasteles andinos
 
 const $ = s => document.querySelector(s);
 const num = v => { const n = parseInt(String(v==null?"":v).replace(/[^0-9-]/g,""),10); return isNaN(n)?0:n; };
@@ -360,7 +358,7 @@ function drawLine(canvasId,legendId,cfg){
     plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>{
       const f=(c.dataset._fechas&&c.dataset._fechas[c.dataIndex])?` · ${c.dataset._fechas[c.dataIndex]}`:"";
       return ` ${c.dataset.label}: ${c.parsed.y.toLocaleString("es-PE")}${f}`;}}}},
-    scales:{y:{grace:"18%",grid:{color:"#F2E2E7"},ticks:{color:"#B09BA2"}},x:{grid:{display:false},ticks:{color:"#B09BA2"}}}}});
+    scales:{y:{grace:"18%",grid:{color:"#F2E3DF"},ticks:{color:"#B19C97"}},x:{grid:{display:false},ticks:{color:"#B19C97"}}}}});
   if(legendId&&$("#"+legendId)) $("#"+legendId).innerHTML=cfg.datasets.map(d=>`<span><span class="sw" style="background:${d.borderColor};${d.borderDash?'opacity:.55':''}"></span>${d.label}</span>`).join("");
 }
 // serie con período principal y período de comparación superpuestos (eje = Día 1..N)
